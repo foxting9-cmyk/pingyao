@@ -1,0 +1,469 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>平遥票号 · 动态知识图谱 | 温柔古风配色</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"></script>
+    <style>
+      /* 🔴 核心修复：强制全局透明，穿透所有层级 */
+      html,
+      body {
+        background: transparent !important;
+        background-color: transparent !important;
+        margin: 0;
+        padding: 0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        /* 🔴 核心修复：删除全局背景色，改为完全透明 */
+        background: transparent !important;
+        font-family:
+          system-ui, "Segoe UI", "PingFang SC", Roboto, "Helvetica Neue",
+          sans-serif;
+        display: flex;
+        height: 97vh;
+        overflow: hidden;
+        padding: 15px;
+        gap: 15px;
+      }
+
+      /* ========== 左侧人物面板 ========== */
+      .left-panel {
+        width: 300px;
+        /* 🔴 核心修复：删除白色背景，改为完全透明 */
+        background: transparent !important;
+        border-radius: 20px;
+        padding: 22px;
+        overflow-y: auto;
+        flex-shrink: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .left-title {
+        font-size: 17px;
+        color: #8699ad;
+        text-align: center;
+        margin-bottom: 18px;
+        font-weight: 500;
+      }
+
+      /* 人物卡片 */
+      .person-card {
+        /* 🔴 核心修复：删除白色背景，改为完全透明 */
+        background: transparent !important;
+        border-radius: 14px;
+        padding: 14px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* 圆形头像 */
+      .avatar {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e8b4b8;
+      }
+
+      .person-name {
+        font-size: 15px;
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 4px;
+      }
+
+      .person-desc {
+        font-size: 12px;
+        color: #777;
+        line-height: 1.4;
+      }
+
+      /* ========== 右侧图谱外框 ========== */
+      .right-graph {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* 图谱容器 */
+      .graph-box {
+        flex: 1;
+        /* 🔴 核心修复：删除半透明白色背景，改为完全透明 */
+        background: transparent !important;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      #graph {
+        width: 100%;
+        height: 100%;
+      }
+
+      .info-tip {
+        position: absolute;
+        bottom: 12px;
+        right: 16px;
+        color: #888;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        pointer-events: none;
+        z-index: 100;
+        backdrop-filter: blur(4px);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 左侧人物介绍 -->
+    <div class="left-panel">
+      <div class="left-title">核心人物简介</div>
+
+      <div class="person-card">
+        <img
+          class="avatar"
+          src="images/jinshang_culture/06_leilvtai.jpg"
+          alt="雷履泰"
+        />
+        <div class="person-info">
+          <div class="person-name">雷履泰</div>
+          <div class="person-desc">
+            日升昌票号创始人、大掌柜，中国票号业开山人物，开创平遥汇兑先河。
+          </div>
+        </div>
+      </div>
+
+      <div class="person-card">
+        <img
+          class="avatar"
+          src="images/jinshang_culture/06_maohonghui.jpg"
+          alt="毛鸿翙"
+        />
+        <div class="person-info">
+          <div class="person-name">毛鸿翙</div>
+          <div class="person-desc">
+            原日升昌二掌柜，后创立蔚泰厚，与日升昌形成著名同业竞争。
+          </div>
+        </div>
+      </div>
+
+      <div class="person-card">
+        <img
+          class="avatar"
+          src="images/jinshang_culture/06_lidaquan.jpg"
+          alt="李大全"
+        />
+        <div class="person-info">
+          <div class="person-name">李大全</div>
+          <div class="person-desc">
+            西裕成颜料庄财东，出资支持雷履泰将西裕成改制为日升昌票号。
+          </div>
+        </div>
+      </div>
+
+      <div class="person-card">
+        <img
+          class="avatar"
+          src="images/jinshang_culture/06_lizhenshi.jpg"
+          alt="李箴视"
+        />
+        <div class="person-info">
+          <div class="person-name">李箴视</div>
+          <div class="person-desc">
+            李大全之子，日升昌继任东主，延续票号经营与发展。
+          </div>
+        </div>
+      </div>
+
+      <div class="person-card">
+        <img
+          class="avatar"
+          src="images/jinshang_culture/06_rishengchangdongzhu.jpg"
+          alt="日升昌东主"
+        />
+        <div class="person-info">
+          <div class="person-name">日升昌东主</div>
+          <div class="person-desc">
+            日升昌票号财东群体，执掌票号资本与经营方向，为票号发展提供支撑。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧知识图谱（带框） -->
+    <div class="right-graph">
+      <div class="graph-box">
+        <div id="graph"></div>
+        <div class="info-tip">
+          ✨ 悬停图例 → 高亮同类节点 | 温柔低饱和国风配色
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const colorPerson = "#E8B4B8";
+        const colorPiao = "#A6D1E6";
+        const colorShang = "#C7E8C6";
+        const colorPlace = "#F7D488";
+
+        const nodesData = [
+          {
+            name: "雷履泰",
+            category: "人物",
+            symbol: "circle",
+            symbolSize: 20,
+            itemStyle: { color: colorPerson },
+          },
+          {
+            name: "毛鸿翙",
+            category: "人物",
+            symbol: "circle",
+            symbolSize: 18,
+            itemStyle: { color: colorPerson },
+          },
+          {
+            name: "李大全",
+            category: "人物",
+            symbol: "circle",
+            symbolSize: 18,
+            itemStyle: { color: colorPerson },
+          },
+          {
+            name: "李箴视",
+            category: "人物",
+            symbol: "circle",
+            symbolSize: 16,
+            itemStyle: { color: colorPerson },
+          },
+          {
+            name: "日升昌东主",
+            category: "人物",
+            symbol: "circle",
+            symbolSize: 16,
+            itemStyle: { color: colorPerson },
+          },
+
+          {
+            name: "日升昌",
+            category: "票号",
+            symbol: "diamond",
+            symbolSize: 22,
+            itemStyle: { color: colorPiao },
+          },
+          {
+            name: "蔚泰厚",
+            category: "票号",
+            symbol: "diamond",
+            symbolSize: 20,
+            itemStyle: { color: colorPiao },
+          },
+          {
+            name: "蔚丰厚",
+            category: "票号",
+            symbol: "diamond",
+            symbolSize: 18,
+            itemStyle: { color: colorPiao },
+          },
+          {
+            name: "协同庆",
+            category: "票号",
+            symbol: "diamond",
+            symbolSize: 18,
+            itemStyle: { color: colorPiao },
+          },
+          {
+            name: "百川通",
+            category: "票号",
+            symbol: "diamond",
+            symbolSize: 18,
+            itemStyle: { color: colorPiao },
+          },
+
+          {
+            name: "西裕成颜料庄",
+            category: "商号",
+            symbol: "rect",
+            symbolSize: 18,
+            itemStyle: { color: colorShang },
+          },
+          {
+            name: "绸缎庄",
+            category: "商号",
+            symbol: "rect",
+            symbolSize: 16,
+            itemStyle: { color: colorShang },
+          },
+          {
+            name: "典当行",
+            category: "商号",
+            symbol: "rect",
+            symbolSize: 16,
+            itemStyle: { color: colorShang },
+          },
+
+          {
+            name: "平遥古城",
+            category: "地点",
+            symbol: "pin",
+            symbolSize: 28,
+            itemStyle: { color: colorPlace },
+          },
+        ];
+
+        const linksData = [
+          { source: "雷履泰", target: "日升昌", name: "创始人·大掌柜" },
+          { source: "雷履泰", target: "西裕成颜料庄", name: "原掌柜" },
+          { source: "毛鸿翙", target: "日升昌", name: "原二掌柜" },
+          { source: "毛鸿翙", target: "蔚泰厚", name: "创始人" },
+          { source: "李大全", target: "西裕成颜料庄", name: "财东" },
+          { source: "李大全", target: "日升昌", name: "出资创办" },
+          { source: "李箴视", target: "日升昌", name: "继任东主" },
+          { source: "日升昌东主", target: "日升昌", name: "东主" },
+          { source: "日升昌", target: "平遥古城", name: "总部" },
+          { source: "蔚泰厚", target: "平遥古城", name: "总部" },
+          { source: "蔚丰厚", target: "平遥古城", name: "总部" },
+          { source: "协同庆", target: "平遥古城", name: "总部" },
+          { source: "百川通", target: "平遥古城", name: "总部" },
+          { source: "西裕成颜料庄", target: "平遥古城", name: "位于" },
+          { source: "绸缎庄", target: "平遥古城", name: "位于" },
+          { source: "典当行", target: "平遥古城", name: "位于" },
+          { source: "日升昌", target: "蔚泰厚", name: "同业竞争" },
+          { source: "蔚泰厚", target: "蔚丰厚", name: "蔚字五联号" },
+          { source: "西裕成颜料庄", target: "日升昌", name: "改制" },
+          { source: "绸缎庄", target: "日升昌", name: "业务往来" },
+          { source: "典当行", target: "日升昌", name: "金融合作" },
+        ];
+
+        const categories = [
+          { name: "人物", itemStyle: { color: colorPerson } },
+          { name: "票号", itemStyle: { color: colorPiao } },
+          { name: "商号", itemStyle: { color: colorShang } },
+          { name: "地点", itemStyle: { color: colorPlace } },
+        ];
+
+        const option = {
+          /* 🔴 核心修复：删除ECharts图表背景色，改为完全透明 */
+          backgroundColor: "transparent",
+
+          tooltip: {
+            trigger: "item",
+            backgroundColor: "rgba(255,255,255,0.95)",
+            borderColor: "#ddd",
+            borderWidth: 1,
+            textStyle: { color: "#555", fontSize: 13 },
+            formatter: function (params) {
+              if (params.dataType === "node") {
+                return `<strong>🏮 ${params.name}</strong><br/>类别: ${params.data.category || "未知"}`;
+              } else if (params.dataType === "edge") {
+                return `🔗 ${params.data.source} → ${params.data.target}<br/>关系: ${params.data.name || "关联"}`;
+              }
+              return params.name;
+            },
+          },
+
+          legend: {
+            top: 18,
+            left: "center",
+            orient: "horizontal",
+            textStyle: { color: "#666", fontSize: 14, fontWeight: "500" },
+            data: ["人物", "票号", "商号", "地点"],
+            icon: "circle",
+            itemWidth: 25,
+            itemHeight: 12,
+            backgroundColor: "rgba(255,255,255,0.7)",
+            borderRadius: 24,
+            padding: [6, 20, 6, 20],
+          },
+
+          series: [
+            {
+              type: "graph",
+              layout: "force",
+              data: nodesData,
+              links: linksData,
+              categories: categories,
+              roam: true,
+              draggable: true,
+
+              symbolSize: function (val, params) {
+                return params.data.symbolSize || 18;
+              },
+
+              label: {
+                show: true,
+                position: "bottom",
+                offset: [0, 8],
+                fontSize: 12,
+                color: "#555",
+                backgroundColor: "rgba(255,255,255,0.7)",
+                padding: [2, 6, 2, 6],
+                borderRadius: 12,
+              },
+
+              lineStyle: {
+                color: "#aaa",
+                curveness: 0.15,
+                width: 1.5,
+                opacity: 0.6,
+              },
+
+              itemStyle: {
+                borderColor: "#fff",
+                borderWidth: 1.5,
+                shadowBlur: 5,
+                shadowColor: "rgba(0,0,0,0.1)",
+              },
+
+              emphasis: {
+                focus: "adjacency",
+                scale: true,
+                label: { fontSize: 13, fontWeight: "bold" },
+                lineStyle: { width: 2.5, opacity: 0.9 },
+              },
+
+              force: {
+                repulsion: 600,
+                edgeLength: 140,
+                gravity: 0.1,
+              },
+
+              legendHoverLink: true,
+              labelLayout: { hideOverlap: true },
+              animation: true,
+            },
+          ],
+
+          toolbox: {
+            show: true,
+            feature: { saveAsImage: {}, restore: {}, zoom: {} },
+            right: 20,
+            top: 20,
+          },
+        };
+
+        const chartDom = document.getElementById("graph");
+        const myChart = echarts.init(chartDom);
+        myChart.setOption(option);
+        window.addEventListener("resize", () => myChart.resize());
+      })();
+    </script>
+  </body>
+</html>

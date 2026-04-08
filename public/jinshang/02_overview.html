@@ -1,0 +1,383 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平遥晋商 · Overview</title>
+    <style>
+      html,
+      body {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg-color: #f4f6f0;
+        --text-light: #9badb9;
+        --text-dark: #8699ad;
+        --tag-bg: #b7c8d0;
+        --tag-hover: #8699ad;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--bg-color);
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        overflow: hidden;
+      }
+
+      #main {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #click-section {
+        width: 35%;
+        height: 100%;
+        padding: 20px 0;
+        position: relative;
+      }
+
+      #drawerboxes {
+        margin-left: 10%;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        gap: 10px;
+      }
+
+      #drawerboxes::before {
+        content: "";
+        width: 8px;
+        height: 94%;
+        position: absolute;
+        left: -10px;
+        top: 3%;
+        z-index: 120;
+      }
+
+      .drawerbox {
+        height: calc(100% / 8);
+        width: 70%;
+        position: relative;
+        z-index: 100;
+        transform: translateX(-70%);
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .drawerbox.active {
+        transform: translateX(0);
+      }
+
+      .drawer-btn {
+        width: 100%;
+        height: 100%;
+        font: 800 24px "";
+        background: linear-gradient(135deg, #c5d2da, #b8c6d0);
+        border: none;
+        transition: all 0.5s ease-in-out;
+        color: transparent;
+        border-radius: 6px;
+      }
+
+      .drawer-btn.active {
+        background: linear-gradient(135deg, #f4f6f0, #e8edf2);
+        color: var(--text-dark);
+      }
+
+      .drawer-btn:hover {
+        cursor: pointer;
+      }
+
+      .drawer-head {
+        position: absolute;
+        color: var(--text-dark);
+        font-size: 120px;
+        font-weight: 700;
+        right: -22px;
+        top: 50%;
+        transform: translateY(-50%);
+        text-shadow: 2px -1px 8px rgba(134, 153, 173, 0.3);
+      }
+
+      #slide-section {
+        position: relative;
+        height: 100%;
+        width: 65%;
+        display: flex;
+        justify-content: center;
+        padding: 0 40px;
+        background: transparent !important;
+        backdrop-filter: none !important;
+      }
+
+      #slide-bar {
+        position: absolute;
+        top: 10%;
+        left: 40px;
+        height: 80%;
+        width: 1px;
+        background-color: var(--tag-bg);
+      }
+
+      #bar {
+        position: absolute;
+        height: calc(100% / 6);
+        width: 5px;
+        top: 0;
+        left: -1.2px;
+        background-color: var(--tag-hover);
+        transition: transform 0.5s ease-in-out;
+      }
+
+      #card-section {
+        height: 100%;
+        width: 80%;
+        overflow: hidden;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        padding: 8% 0;
+        transition: transform 0.5s ease-in-out;
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: transparent !important;
+      }
+
+      .card-small-title {
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--text-light);
+        margin-bottom: 6px;
+        font-family: "SimSun", serif;
+      }
+
+      .card-title {
+        font-size: 54px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+        font-family: "SimHei", sans-serif;
+      }
+
+      .card-content {
+        font-size: 20px;
+        line-height: 1.8;
+        color: var(--text-light);
+        font-family: "KaiTi", serif;
+        margin-bottom: 30px;
+        text-indent: 2em;
+        min-height: 108px;
+      }
+
+      .card-img {
+        width: 100%;
+        height: 360px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-img img.piaohao-img {
+        object-position: center 38%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="main">
+      <div id="click-section">
+        <div id="drawerboxes">
+          <div class="drawerbox active">
+            <button class="drawer-btn active" onclick="slideTo(1)">
+              晋商概述<span class="drawer-head">1</span>
+            </button>
+          </div>
+          <div class="drawerbox">
+            <button class="drawer-btn" onclick="slideTo(2)">
+              历史沿革<span class="drawer-head">2</span>
+            </button>
+          </div>
+          <div class="drawerbox">
+            <button class="drawer-btn" onclick="slideTo(3)">
+              票号发展<span class="drawer-head">3</span>
+            </button>
+          </div>
+          <div class="drawerbox">
+            <button class="drawer-btn" onclick="slideTo(4)">
+              人物图谱<span class="drawer-head">4</span>
+            </button>
+          </div>
+          <div class="drawerbox">
+            <button class="drawer-btn" onclick="slideTo(5)">
+              经营制度<span class="drawer-head">5</span>
+            </button>
+          </div>
+          <div class="drawerbox">
+            <button class="drawer-btn" onclick="slideTo(6)">
+              精神传承<span class="drawer-head">6</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="slide-section">
+        <div id="slide-bar"><div id="bar"></div></div>
+        <div id="card-section">
+          <!-- 1 晋商概述 -->
+          <div class="card">
+            <div class="card-small-title">Overview</div>
+            <div class="card-title">晋商概述</div>
+            <div class="card-content">
+              平遥晋商是明清时期中国实力最强、影响最广的商帮集团，以诚信经营、汇通天下、制度先进闻名于世，开创了中国民间金融业的先河。
+            </div>
+            <div class="card-img">
+              <img src="images/jinshang_culture/02_overview.jpg" alt="" />
+            </div>
+          </div>
+
+          <!-- 2 历史沿革 -->
+          <div class="card">
+            <div class="card-small-title">History</div>
+            <div class="card-title">历史沿革</div>
+            <div class="card-content">
+              晋商兴起于明代开中制，依托盐业与茶叶贸易逐步壮大，清代中期票号诞生并走向鼎盛，近代虽历经转型，但其商业文化仍被长久传承。
+            </div>
+            <div class="card-img">
+              <img src="images/jinshang_culture/02_history.jpg" alt="" />
+            </div>
+          </div>
+
+          <!-- 3 票号发展 -->
+          <div class="card">
+            <div class="card-small-title">Development</div>
+            <div class="card-title">票号发展</div>
+            <div class="card-content">
+              晋商由传统茶叶、丝绸商号逐步转型为票号金融，先后诞生日昇昌、蔚泰厚、协同庆、百川通等知名票号，构建起覆盖全国的金融网络。
+            </div>
+            <div class="card-img">
+              <img src="images/jinshang_culture/02_piaohao.jpg" alt="" class="piaohao-img" />
+            </div>
+          </div>
+
+          <!-- 4 人物图谱 -->
+          <div class="card">
+            <div class="card-small-title">Map</div>
+            <div class="card-title">人物图谱</div>
+            <div class="card-content">
+              以雷履泰、毛鸿翙等为代表的晋商巨擘，与遍布平遥、祁县、太谷的票号网络共同构成了清晰的人物关系与地理分布知识图谱。
+            </div>
+            <div class="card-img">
+              <img src="images/jinshang_culture/02_people.jpg" alt="" />
+            </div>
+          </div>
+
+          <!-- 5 经营制度 -->
+          <div class="card">
+            <div class="card-small-title">System</div>
+            <div class="card-title">经营制度</div>
+            <div class="card-content">
+              晋商创立身股制、学徒制、联号制与严格号规，形成权责分明、管理规范的企业制度，在数百年前便达到了近代企业管理水平。
+            </div>
+            <div class="card-img">
+              <img src="images/jinshang_culture/02_system.jpg" alt="" />
+            </div>
+          </div>
+
+          <!-- 6 精神传承 -->
+          <div class="card">
+            <div class="card-small-title">Spirit</div>
+            <div class="card-title">精神传承</div>
+            <div class="card-content">
+              晋商以诚信为本、义利并举、勤奋坚韧、开拓创新与家国情怀为精神内核，不仅影响深远，更为当代商业文明提供了重要借鉴。
+            </div>
+            <div class="card-img">
+              <img src="images/jinshang_culture/02_spirit.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let chosenSlideNumber = 1;
+      let offset = 0;
+      let barOffset = 0;
+      let intervalID;
+      startSlide();
+
+      const drawerBtns = Array.from(document.querySelectorAll(".drawer-btn"));
+      drawerBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          clearInterval(intervalID);
+          startSlide();
+        });
+      });
+
+      const slideSection = document.querySelector("#slide-section");
+      slideSection.addEventListener("mouseenter", () =>
+        clearInterval(intervalID),
+      );
+      slideSection.addEventListener("mouseleave", startSlide);
+
+      function slideTo(slideNumber) {
+        drawerboxToggle(slideNumber);
+        drawerbtnToggle(slideNumber);
+        let prev = chosenSlideNumber;
+        chosenSlideNumber = slideNumber;
+        offset += (chosenSlideNumber - prev) * -100;
+        barOffset += (chosenSlideNumber - prev) * 100;
+        barSlide(barOffset);
+        document.querySelectorAll(".card").forEach((s) => {
+          s.style.transform = `translateY(${offset}%)`;
+        });
+      }
+
+      function drawerboxToggle(num) {
+        const boxes = document.querySelectorAll(".drawerbox");
+        boxes[chosenSlideNumber - 1].classList.remove("active");
+        boxes[num - 1].classList.add("active");
+      }
+
+      function drawerbtnToggle(num) {
+        const btns = document.querySelectorAll(".drawer-btn");
+        btns[chosenSlideNumber - 1].classList.remove("active");
+        btns[num - 1].classList.add("active");
+      }
+
+      function barSlide(off) {
+        document.querySelector("#bar").style.transform = `translateY(${off}%)`;
+      }
+
+      function startSlide() {
+        intervalID = setInterval(() => {
+          slideTo((chosenSlideNumber % 6) + 1);
+        }, 3500);
+      }
+    </script>
+  </body>
+</html>

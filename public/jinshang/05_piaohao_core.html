@@ -1,0 +1,500 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>晋商文化 - 手风琴展示</title>
+<style>
+  html,
+  body {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "SimSun", "宋体", serif;
+    background-color: #f4f6f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 40px 0;
+  }
+
+  .main-wrapper {
+    display: flex;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 40px;
+    gap: 40px;
+    align-items: stretch;
+  }
+
+  /* 左侧文字区域 - 变窄 */
+  .left-section {
+    width: 120px;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .left-title-group {
+    border-left: 3px solid #8699ad;
+    padding-left: 20px;
+  }
+
+  .main-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #8699ad;
+    letter-spacing: 8px;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    height: 280px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    color: #a2b9c4;
+    letter-spacing: 2px;
+    opacity: 0.9;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    height: 160px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* 右侧手风琴区域 */
+  .right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .accordion-section {
+    display: flex;
+    gap: 20px; /* 👈 只改了这里：从12px → 20px，间距变大一点 */
+    height: 65vh;
+    min-height: 500px;
+    position: relative;
+    will-change: contents;
+  }
+
+  /* 手风琴面板 */
+  .accordion-item {
+    flex: 1;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: flex 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    min-width: 0;
+    will-change: flex;
+  }
+
+  /* 上下交错效果 —— 错落更明显，圆角完整 */
+  .accordion-item:nth-child(1) {
+    top: -38px;
+  }
+  .accordion-item:nth-child(2) {
+    top: 28px;
+  }
+  .accordion-item:nth-child(3) {
+    top: -15px;
+  }
+  .accordion-item:nth-child(4) {
+    top: 28px;
+  }
+  .accordion-item:nth-child(5) {
+    top: -38px;
+  }
+
+  .accordion-section {
+    display: flex;
+    gap: 20px; /* 👈 只改了这里：从12px → 20px，间距变大一点 */
+    height: 65vh;
+    min-height: 500px;
+    position: relative;
+    will-change: contents;
+    padding: 50px 0;
+  }
+
+  .accordion-item:not(.active) {
+    flex: 0.6;
+  }
+
+  .accordion-item.active {
+    flex: 2.5;
+  }
+
+  .accordion-item:not(.active) .item-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .accordion-item:not(.active) .item-text {
+    opacity: 1;
+    transform: translateY(0);
+    font-size: 20px;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .accordion-item.active .item-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+
+  .accordion-item.active .item-text {
+    opacity: 0;
+    transform: translateY(-100px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  /* 背景图片 */
+  .item-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+    border-radius: 12px;
+  }
+
+  .accordion-item.active .item-background {
+    transform: scale(1.05);
+  }
+
+  /* 遮罩 */
+  .item-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    border-radius: 12px;
+  }
+
+  .accordion-item:not(.active) .item-overlay {
+    opacity: 1;
+  }
+
+  .accordion-item.active .item-overlay {
+    opacity: 0 !important;
+  }
+
+  /* 遮罩颜色 */
+  .item-1 .item-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(113, 85, 69, 0.85) 0%,
+      rgba(113, 85, 69, 0.6) 100%
+    );
+  }
+  .item-2 .item-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(92, 109, 90, 0.85) 0%,
+      rgba(92, 109, 90, 0.6) 100%
+    );
+  }
+  .item-3 .item-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(135, 129, 98, 0.85) 0%,
+      rgba(135, 129, 98, 0.6) 100%
+    );
+  }
+  .item-4 .item-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(175, 146, 97, 0.85) 0%,
+      rgba(175, 146, 97, 0.6) 100%
+    );
+  }
+  .item-5 .item-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(202, 131, 105, 0.85) 0%,
+      rgba(202, 131, 105, 0.6) 100%
+    );
+  }
+
+  /* 内容区域 */
+  .item-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 2;
+  }
+
+  /* 竖排文字 */
+  .item-text {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 6px;
+    white-space: nowrap;
+    z-index: 3;
+  }
+
+  .item-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    letter-spacing: 8px;
+    margin-bottom: 15px;
+  }
+
+  .item-desc {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.8;
+    letter-spacing: 2px;
+  }
+
+  /* 底部图例 */
+  .note {
+    text-align: center;
+    margin-top: 50px;
+    color: #666;
+    font-size: 13px;
+  }
+
+  .note span {
+    margin: 0 12px;
+  }
+  .color-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+
+  /* 响应式 */
+  @media (max-width: 1200px) {
+    .main-wrapper {
+      padding: 0 30px;
+      gap: 30px;
+    }
+    .left-section {
+      width: 100px;
+      min-width: 100px;
+    }
+    .main-title {
+      font-size: 26px;
+      height: 220px;
+    }
+    .subtitle {
+      font-size: 11px;
+      height: 120px;
+    }
+    .accordion-section {
+      height: 450px;
+      gap: 15px; /* 👈 响应式也同步调大 */
+    }
+  }
+
+  @media (max-width: 900px) {
+    .main-wrapper {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .left-section {
+      width: 100%;
+      min-width: 100%;
+      padding: 20px 0;
+    }
+    .left-title-group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-left: none;
+      border-bottom: 3px solid #8699ad;
+      padding-left: 0;
+      padding-bottom: 15px;
+    }
+    .main-title {
+      writing-mode: horizontal-tb;
+      height: auto;
+      font-size: 24px;
+      margin-bottom: 0;
+      margin-right: 15px;
+    }
+    .subtitle {
+      writing-mode: horizontal-tb;
+      height: auto;
+    }
+    .accordion-section {
+      flex-direction: column;
+      height: auto;
+      gap: 15px;
+    }
+    .accordion-item {
+      min-height: 100px;
+      top: 0 !important;
+    }
+    .accordion-item.active {
+      min-height: 260px;
+    }
+    .item-text,
+    .item-title,
+    .item-desc {
+      writing-mode: horizontal-tb;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="main-wrapper">
+  <!-- 左侧文字区域 -->
+  <div class="left-section">
+    <div class="left-title-group">
+      <h1 class="main-title">平遥晋商票号</h1>
+      <div class="subtitle">PINGYAO BANKING</div>
+    </div>
+  </div>
+
+  <!-- 右侧手风琴区域 -->
+  <div class="right-section">
+    <div class="accordion-section">
+      <!-- 日昇昌 -->
+      <div class="accordion-item item-1 active">
+        <div class="item-background" style="background-image: url('images/jinshang_culture/05_rishengchang.jpeg')"></div>
+        <div class="item-overlay"></div>
+        <div class="item-content">
+          <div class="item-title">日昇昌</div>
+          <div class="item-desc">
+            中国第一家票号<br>创建于道光三年<br>汇通天下银票
+          </div>
+        </div>
+        <div class="item-text">日昇昌</div>
+      </div>
+
+      <!-- 蔚泰厚 -->
+      <div class="accordion-item item-2">
+        <div class="item-background" style="background-image: url('images/jinshang_culture/05_weitaihou.jpeg')"></div>
+        <div class="item-overlay"></div>
+        <div class="item-content">
+          <div class="item-title">蔚泰厚</div>
+          <div class="item-desc">
+            蔚字五联号之首<br>资本雄厚信誉卓著<br>总分号遍布全国
+          </div>
+        </div>
+        <div class="item-text">蔚泰厚</div>
+      </div>
+
+      <!-- 蔚丰厚 -->
+      <div class="accordion-item item-3">
+        <div class="item-background" style="background-image: url('images/jinshang_culture/05_weifenghou.jpeg')"></div>
+        <div class="item-overlay"></div>
+        <div class="item-content">
+          <div class="item-title">蔚丰厚</div>
+          <div class="item-desc">
+            蔚字联号之一<br>经营存放款业务<br>近代金融先驱
+          </div>
+        </div>
+        <div class="item-text">蔚丰厚</div>
+      </div>
+
+      <!-- 协同庆 -->
+      <div class="accordion-item item-4">
+        <div class="item-background" style="background-image: url('images/jinshang_culture/05_xietongqing.jpeg')"></div>
+        <div class="item-overlay"></div>
+        <div class="item-content">
+          <div class="item-title">协同庆</div>
+          <div class="item-desc">
+            以协同为本<br>注重伙计合作<br>稳健经营百年
+          </div>
+        </div>
+        <div class="item-text">协同庆</div>
+      </div>
+
+      <!-- 百川通 -->
+      <div class="accordion-item item-5">
+        <div class="item-background" style="background-image: url('images/jinshang_culture/05_baichuantong.jpeg')"></div>
+        <div class="item-overlay"></div>
+        <div class="item-content">
+          <div class="item-title">百川通</div>
+          <div class="item-desc">
+            汇通百川<br>南北金融枢纽<br>票号行业翘楚
+          </div>
+        </div>
+        <div class="item-text">百川通</div>
+      </div>
+    </div>
+
+    <!-- 底部图例 -->
+    <div class="note">
+      <span><span class="color-dot" style="background:#715545"></span>日昇昌</span>
+      <span><span class="color-dot" style="background:#5c6d5a"></span>蔚泰厚</span>
+      <span><span class="color-dot" style="background:#878162"></span>蔚丰厚</span>
+      <span><span class="color-dot" style="background:#af9261"></span>协同庆</span>
+      <span><span class="color-dot" style="background:#ca8369"></span>百川通</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const items = document.querySelectorAll(".accordion-item");
+    let active = items[0];
+    let locked = false;
+
+    items.forEach((item) => {
+      item.addEventListener("click", () => {
+        if (item === active || locked) return;
+        locked = true;
+        items.forEach((i) => i.classList.remove("active"));
+        item.classList.add("active");
+        active = item;
+        setTimeout(() => (locked = false), 450);
+      });
+    });
+  });
+</script>
+</body>
+</html>
